@@ -207,6 +207,7 @@ class MultiBar(ProgCLI):
         if self._state == 0:
             #n = self._max.index(None) if any(x == None for x in self._max) else len(self._max)
             self.start(self.n)
+
         return self
 
     def sub_iter(self,x):
@@ -216,6 +217,7 @@ class MultiBar(ProgCLI):
                 break
             self.lnup()
         else:
+            print("\r\x1b[1B",end='',file=self.out)
             self.updateln(0)
             self.show_cursor()
             self._state = 2
