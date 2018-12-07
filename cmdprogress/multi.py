@@ -1,10 +1,8 @@
-
 from .core import ProgCLI,ProgCLIError
 from collections import deque
-from datetime import timedelta
 from math import ceil
-from sys import stderr
 from time import time
+from datetime import timedelta
 
 class MultiBar(ProgCLI):
     ma_window = 10 # Simple Moving Average window
@@ -92,26 +90,6 @@ class MultiBar(ProgCLI):
         self._inx[i] += n
         return self
 
-    def atEnd(self,i):
-        return self._inx[i]==self._max[i]
-
-
-    # ------------------------------ [Inc](Old) ------------------------------ #
-
-    def _inc(self,n=1):
-        now = time()
-        if n>0: self._ma[self._i].append((now-self._ts[self._i])/n)
-        self._ts[self._i] = now
-        self._inx[self._i] += n
-        return self.inx-n
-
-
-
-    # ------------------------------ [Jump](Old) ------------------------------ #
-
-    def goto(self,inx):
-
-        self.inc(inx-self.inx)
 
 
     # ------------------------------ [Iter](New) ------------------------------ #
