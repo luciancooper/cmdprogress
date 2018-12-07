@@ -1,5 +1,16 @@
+import sys
+import os
 
-from sys import stderr
+if sys.platform.startswith('win'):
+    import colorama
+    colorama.init()
+
+if os.name == 'nt':
+    import msvcrt
+    import ctypes
+
+    class _CursorInfo(ctypes.Structure):
+        _fields_ = [("size", ctypes.c_int),("visible", ctypes.c_byte)]
 
 
 class ProgCLIError(Exception):
@@ -8,24 +19,27 @@ class ProgCLIError(Exception):
 
 class ProgCLI():
 
-    out = stderr
+    out = sys.stderr
 
-    def __init__(self,**kwargs):
+    themes = {
+        'smooth': (' ', '▏', '▎', '▍', '▌', '▋', '▊', '▉', '█'),
+        'pixel':('⡀', '⡄', '⡆', '⡇', '⣇', '⣧', '⣷', '⣿'),
+        'shady':(' ', '░', '▒', '▓', '█'),
+        'squares':('▢','▣'), # 9634,9635
+        'circles':('◯','◉'), # 9711,9673
+        'charge':('∙','█'), # 8729,9608
+        'basic':(' ','#'),
+    }
+
+    fill = themes['basic'] if os.name=='nt' else themes['smooth']
+
+    def __init__(self,theme=None,**kwargs):
         if not self.out.isatty():
             raise ProgCLIError("ProgCLI must be used within a command line interface")
-        self.inx = 0
+        if theme != None:
+            self.fill = self.themes[theme.lower()]
         for k,v in kwargs.items():
             setattr(self,k,v)
-
-    # -------- index --------- #
-
-    def incInx(self,n=1): # next
-        self.inx+=n
-        return self
-
-    def setInx(self,i):
-        self.inx = i
-        return self
 
     # -------- core --------- #
 
@@ -38,40 +52,31 @@ class ProgCLI():
     def finish(self):
         return self
 
-    # -------- iter --------- #
-
-    def iter(self,it):
-        def wrapper():
-            try:
-                self.start().update()
-                for x in it:
-                    yield x
-                    self.incInx().update()
-
-            finally:
-                self.finish()
-        return wrapper()
-
-    def __iter__(self):
-        if self.inx == 0:
-            self.start().update()
-        return self
-
-    def __next__(self):
-        if self.inx<self.max:
-            i = self.inx
-            self.incInx().update()
-            return i
-        self.finish()
-        raise StopIteration()
-
     # ----- Hide / Show Cursor ----- #
 
     def hide_cursor(self):
-        print('\x1b[?25l', end='', file=self.out)
+        if os.name == 'nt':
+            ci = _CursorInfo()
+            handle = ctypes.windll.kernel32.GetStdHandle(-11)
+            ctypes.windll.kernel32.GetConsoleCursorInfo(handle, ctypes.byref(ci))
+            ci.visible = False
+            ctypes.windll.kernel32.SetConsoleCursorInfo(handle, ctypes.byref(ci))
+        elif os.name == 'posix':
+            #sys.out.write("\033[?25l")
+            #sys.out.flush()
+            print('\x1b[?25l', end='', file=self.out)
 
     def show_cursor(self):
-        print('\x1b[?25h', end='', file=self.out)
+        if os.name == 'nt':
+            ci = _CursorInfo()
+            handle = ctypes.windll.kernel32.GetStdHandle(-11)
+            ctypes.windll.kernel32.GetConsoleCursorInfo(handle, ctypes.byref(ci))
+            ci.visible = True
+            ctypes.windll.kernel32.SetConsoleCursorInfo(handle, ctypes.byref(ci))
+        elif os.name == 'posix':
+            #sys.out.write("\033[?25h")
+            #sys.out.flush()
+            print('\x1b[?25h', end='', file=self.out)
 
     def clear_line(self):
         print('\r\x1b[K', end='', file=self.out)

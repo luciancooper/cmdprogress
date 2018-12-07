@@ -1,3 +1,3 @@
 
-from .bar import LoadBar,ChargingBar,IncrementalBar
+from .bar import ProgBar
 from .multi import MultiBar

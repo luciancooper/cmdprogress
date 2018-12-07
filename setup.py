@@ -14,6 +14,9 @@ setup(
     keywords='progress bar utility',
     license='MIT',
     packages=['cmdprogress'],
+    install_requires=[
+        'colorama;platform_system=="Windows"'
+    ],
     classifiers=[
         'Environment :: Console',
         'Intended Audience :: Developers',

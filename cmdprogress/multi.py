@@ -7,25 +7,16 @@ from sys import stderr
 from time import time
 
 class MultiBar(ProgCLI):
-    out = stderr
     ma_window = 10 # Simple Moving Average window
     width = 32
     bar_padding = '|%s|'
-    fill = (' ', '▏', '▎', '▍', '▌', '▋', '▊', '▉', '█')
-    themes = {
-        'pixel':(' ','⡀', '⡄', '⡆', '⡇', '⣇', '⣧', '⣷', '⣿'),
-        'shady':(' ', '░', '▒', '▓', '█'),
-    }
 
-    def __init__(self,*lvls,lvl=None,prefix='',theme=None,**kwargs):
-        if not self.out.isatty():
-            raise ProgCLIError("ProgCLI must be used within a command line interface")
-        if theme: self.fill = self.themes[theme.lower()]
+    def __init__(self,*lvls,lvl=None,prefix='',**kwargs):
+        super().__init__(**kwargs)
         if lvl == None:
             lvl = len(lvls)
         if lvl == 0:
             raise ProgCLIError("MultiBar cannot have 0 levels")
-
         self._state = 0
         self._inx = [None]*lvl
         self._ma = [deque(maxlen=self.ma_window) for x in range(lvl)]
@@ -39,8 +30,7 @@ class MultiBar(ProgCLI):
             self._inx[i] = 0
             self._max[i] = l
         self.n = len(lvls)
-        for k,v in kwargs.items():
-            setattr(self,k,v)
+
 
     def __len__(self):
         return len(self._max)
@@ -79,12 +69,6 @@ class MultiBar(ProgCLI):
                 print('\x1b[1A',end='',file=self.out)
                 self.update(x)
             print('\r'+'\x1b[{}B'.format(self.cursor),end='',file=self.out,flush=True)
-
-
-
-
-
-
 
 
     # ------------------------------ [Time] ------------------------------ #

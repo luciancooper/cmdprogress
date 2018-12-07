@@ -2,13 +2,12 @@ import sys,os,time,argparse
 import cmdprogress
 
 def test_multi(args):
-
     bar = cmdprogress.MultiBar(*args.levels)
     for x in bar:
         time.sleep(args.pause)
 
 def test_bar(args):
-    bar = cmdprogress.IncrementalBar(max=args.max)
+    bar = cmdprogress.ProgBar(max=args.max)
     for x in bar:
         time.sleep(args.pause)
 
