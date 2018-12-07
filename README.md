@@ -9,9 +9,11 @@ Cross Platform Python Command Line Progress Bars
 
 **MacOS**
 
-![Multi Bar](https://raw.githubusercontent.com/luciancooper/cmdprogress/master/multi_demo.gif)
+![Multi Bar](https://raw.githubusercontent.com/luciancooper/cmdprogress/master/multi_mac.gif)
 
 **Windows**
+
+![Multi Bar](https://raw.githubusercontent.com/luciancooper/cmdprogress/master/multi_win.gif)
 
 **Linux**
 
