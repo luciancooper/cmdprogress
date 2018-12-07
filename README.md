@@ -5,9 +5,15 @@
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/cmdprogress.svg)](https://pypi.python.org/pypi/cmdprogress/)
 [![PyPI license](https://img.shields.io/pypi/l/cmdprogress.svg)](https://pypi.python.org/pypi/cmdprogress/)
 
-Python Command Line Progress Bars
+Cross Platform Python Command Line Progress Bars
+
+**MacOS**
 
 ![Multi Bar](https://raw.githubusercontent.com/luciancooper/cmdprogress/master/multi_demo.gif)
+
+**Windows**
+
+**Linux**
 
 ### Contents
 * [Installation](#installation)
