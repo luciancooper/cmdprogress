@@ -13,6 +13,7 @@ Python Command Line Progress Bars
 * [Installation](#installation)
 * [ProgBar](#ProgBar)
 * [MultiBar](#MultiBar)
+* [Acknowledgements](#Acknowledgements)
 
 # Installation
 
@@ -98,7 +99,7 @@ for x in bar:
 ```
 
 
-# Acknowledgements
+## Acknowledgements
 
  - This project depends on [colorama](https://pypi.org/project/colorama/) to work in the Windows Command Line
  - Shoutout to this [stack overflow answer](https://stackoverflow.com/a/10455937)
