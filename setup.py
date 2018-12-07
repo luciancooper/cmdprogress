@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setup(
     name='cmdprogress',
-    version='1.1',
+    version='1.2',
     author='Lucian Cooper',
     url='https://github.com/luciancooper/cmdprogress',
     description='Command Line Progress Bars',
@@ -23,6 +23,9 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3.6',
+        'Operating System :: MacOS'
+        'Operating System :: Microsoft :: Windows',
+        'Operating System :: POSIX :: Linux',
         'Topic :: Terminals',
         'Topic :: Utilities',
     ],
