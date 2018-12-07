@@ -6,7 +6,7 @@ if sys.platform.startswith('win'):
     colorama.init()
 
 if os.name == 'nt':
-    import msvcrt
+    #import msvcrt
     import ctypes
 
     class _CursorInfo(ctypes.Structure):

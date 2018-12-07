@@ -11,7 +11,8 @@ Python Command Line Progress Bars
 
 ### Contents
 * [Installation](#installation)
-* [Usage](#usage)
+* [ProgBar](#ProgBar)
+* [MultiBar](#MultiBar)
 
 # Installation
 
@@ -29,43 +30,75 @@ cd cmdprogress
 python setup.py install
 ```
 
-# Usage
+## Usage
 
-There are a couple of ways to use a python multibar.
+this project consists of two instantiatable classes: `ProgBar` and `MultiBar`
+
+# ProgBar
+
+There are two ways to use a `ProgBar`
+
+Either give it a length when you instantiate the object, and then directly loop through it
+
 ```python
+from cmdprogress.bar import ProgBar
 
+bar = ProgBar(max=5)
+for x in bar:
+    # x = (0 .. 5)
+    # do some work
+```
+
+Or do not provide it a length when you instantiate it, instead provide it an iterable to wrap
+
+```python
+from cmdprogress.bar import ProgBar
+
+bar = ProgBar()
+for x in bar.iter(range(5)):
+    # x = (0 .. 5)
+    # do some work
+```
+
+
+# MultiBar
+
+There are 3 ways to use a `MultiBar`.
+
+```python
 from cmdprogress.multi import MultiBar
 
 bar = MultiBar(lvl=2)
 for i in bar.iter(range(5)):
     for j in bar.iter(range(10)):
         # do some work
-        pass
 
 ```
 
 
 ```python
-
 from cmdprogress.multi import MultiBar
 
 bar = MultiBar(5,lvl=2)
 for x in range(5):
     for i in bar.iter(range(10)):
         # do some work
-        pass
 
 ```
 
 
 ```python
-
 from cmdprogress.multi import MultiBar
 
 bar = MultiBar(5,10)
 for x in bar:
     # x will be the tuple (i,j)
     # do some work
-    pass
 
 ```
+
+
+# Acknowledgements
+
+ - This project depends on [colorama](https://pypi.org/project/colorama/) to work in the Windows Command Line
+ - Shoutout to this [stack overflow answer](https://stackoverflow.com/a/10455937)
